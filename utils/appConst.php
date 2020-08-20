@@ -31,4 +31,36 @@ class AppConst {
     public const BILL_IN_COURSE = "In Course";
     public const BILL_OBSOLETE = "Obsolete";
 
+    /**
+     * Fonction qui permet de verifier si un élément est un type de livraison.
+     * @param string $query
+     * @return bool
+     */
+    public static function isShippingType (string $query): bool {
+        return $query === self::SHIPPING_STANDARD ||
+            $query === self::SHIPPING_EXPRESS ||
+            $query === self::SHIPPING_INSTANT;
+    }
+
+    /**
+     * Fonction qui permet de verifier si un élément est un type de paiement.
+     * @param string $query
+     * @return bool
+     */
+    public static function isPaymentType (string $query): bool {
+        return $query === self::PAYMENT_AT_SHIPPING ||
+            $query === self::PAYMENT_BY_MM ||
+            $query === self::PAYMENT_BY_OM;
+    }
+
+    /**
+     * Fonction qui permet de verifier si un élément est un état de facture.
+     * @param string $query
+     * @return bool
+     */
+    public static function isBillState (string $query): bool {
+        return $query === self::BILL_IN_COURSE ||
+            $query === self::BILL_OBSOLETE ||
+            $query === self::BILL_DELIVER;
+    }
 }

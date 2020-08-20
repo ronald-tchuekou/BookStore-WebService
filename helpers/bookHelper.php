@@ -13,8 +13,6 @@
 
 namespace helpers;
 
-require_once "vendor/autoload.php";
-
 use models\book, PDOException;
 
  class BookHelper {
@@ -88,8 +86,8 @@ use models\book, PDOException;
                  }
          } catch (PDOException $e) {
              $response = array (
-                 "Error" => true,
-                 "Message" => "Erreur dans la requete de récuperation un livre en fonction de son identifiant." . $e->getMessage()
+                 'error' => true,
+                 'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
              );
              die(json_encode($response));
          }
@@ -114,10 +112,10 @@ use models\book, PDOException;
              }
              $this->books = $books;
          } catch (PDOException $e) {
-            $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation de tous les livres." . $e->getMessage()
-            );
+             $response = array (
+                 'error' => true,
+                 'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+             );
             die(json_encode($response));
          }
      }
@@ -144,9 +142,9 @@ use models\book, PDOException;
             }
             $this->books = $books;
         } catch (PDOException $e) {
-            $response = array(
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation de tous les livres d\'une classe." . $e->getMessage()
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -174,9 +172,9 @@ use models\book, PDOException;
             }
             $this->books = $books;
         } catch (PDOException $e) {
-            $response = array(
-                "Error" => true,
-                "Message" => "Erreur dans la requête de récuperation de livres en fonction de son cycle." . $e->getMessage()
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -205,9 +203,9 @@ use models\book, PDOException;
             }
             $this->books = $books;
         } catch (PDOException $e) {
-            $response = array(
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation d'un livres à partir de l'élément de recherche. " . $e->getMessage()
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }

@@ -1309,7 +1309,8 @@ telephone2</ColNames>
     </column>
     <column id="309" parent="231" name="date_livraison">
       <Position>7</Position>
-      <DataType>date|0s</DataType>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="310" parent="231" name="net_a_payer">

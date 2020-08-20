@@ -13,7 +13,6 @@
 
 namespace helpers;
 
-require_once ("vendor/autoload.php");
 
 use models\Commend;
 use PDOException;
@@ -95,13 +94,13 @@ class CommendHelper {
                     $bookHelper->getBookById($item->id_livre);
                     $book = $bookHelper->getBook();
 
-                    $this->commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total, $item->date_commande,
-                        $item->est_facture, $item->est_validee);
+                    $this->commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total,
+                        $item->date_commande, $item->est_facture, $item->est_validee);
                 }
         }catch (PDOException $e) {
             $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation une commande en fonction de son identifiant. " . $e->getMessage()
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -129,8 +128,8 @@ class CommendHelper {
                     $bookHelper->getBookById($item->id_livre);
                     $book = $bookHelper->getBook();
 
-                    $this->commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total, $item->date_commande,
-                        $item->est_facture, $item->est_validee);
+                    $this->commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total,
+                        $item->date_commande, $item->est_facture, $item->est_validee);
 
                     array_push($commends, $this->commend);
                 }
@@ -138,8 +137,8 @@ class CommendHelper {
             $this->commends = $commends;
         }catch (PDOException $e) {
             $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation une commande en fonction de son identifiant. " . $e->getMessage()
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -171,8 +170,8 @@ class CommendHelper {
             $this->commends = $commends;
         }catch (PDOException $e) {
             $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation de tous les commandes. " . $e->getMessage()
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -206,8 +205,78 @@ class CommendHelper {
             $this->commends = $commends;
         }catch (PDOException $e) {
             $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation de tous les commandes d'un client. " . $e->getMessage()
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
+        }
+    }
+
+    /**
+     * Fonction qui permet d'ajouter une commande dans la base de données.
+     * @param Commend $commend
+     * @param int $user_id
+     * @return bool
+     */
+    public function addCommend (Commend  $commend, $user_id) : bool{
+        try {
+            $sql = "INSERT INTO clients_commandes_livres (id, id_livre, id_client, quantite_commandee, prix_total, 
+                        date_commande, est_facture)
+                    VALUES (null, :book_id, :user_id, :quantity, :total_prise, :cmd_date, :is_bill);";
+
+            $con = new Connexion;
+            $db = $con->adminConnexion();
+            $query = $db->prepare($sql);
+            return $query->execute([":book_id" => $commend->getBook()->getId(), ":user_id" => $user_id,
+                ":quantity" => $commend->getQuantity(), ":total_prise" => $commend->getTotalPrise(),
+                ":cmd_date" => $commend->getDateCmd(), ":is_bill" => $commend->isIsBilled()]);
+        }catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
+        }
+    }
+
+    /**
+     * Fonction qui permet d'ajouter une commande à une facture.
+     * @param int $cmd_id
+     * @param string $bill_ref
+     * @return bool
+     */
+    public function billed (int $cmd_id, string $bill_ref): bool {
+        try {
+            $sql = "UPDATE clients_commandes_livres SET  ref_facture = :bill_ref, est_facture = 1 WHERE id = :cmd_id;";
+            $con = new Connexion;
+            $db = $con->adminConnexion();
+            $query = $db->prepare($sql);
+            return $query->execute([":bill_ref" => $bill_ref, ":cmd_id" => $cmd_id]);
+        }catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
+        }
+    }
+
+    /**
+     * Fonction qui permet de valider une commande.
+     * @param int $cmd_id
+     * @return bool
+     */
+    public function validate (int $cmd_id): bool {
+        try {
+            $sql = "UPDATE clients_commandes_livres SET  est_validee = 1 WHERE id = :cmd_id;";
+            $con = new Connexion;
+            $db = $con->adminConnexion();
+            $query = $db->prepare($sql);
+            return $query->execute([":cmd_id" => $cmd_id]);
+        }catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -252,6 +321,72 @@ class CommendHelper {
             $result .= "]";
         }
         return $result;
+    }
+
+    /**
+     * Fonction qui permet de mettre à jour la quantité d'une commande.
+     * @param int $new_quantity
+     * @param int $cmd_id
+     * @param $book_prise
+     * @return bool
+     */
+    public function updateQuantity($new_quantity, $cmd_id, $book_prise): bool
+    {
+        try {
+            $sql = "UPDATE clients_commandes_livres SET  quantite_commandee = :new_q, prix_total = :new_tp WHERE id = :cmd_id;";
+            $con = new Connexion;
+            $db = $con->adminConnexion();
+            $query = $db->prepare($sql);
+            return $query->execute([':new_q'=> $new_quantity, ":new_tp" => ($book_prise * $new_quantity), ":cmd_id" => $cmd_id]);
+        }catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
+        }
+    }
+
+    /**
+     * @param string $bill_ref
+     * @return bool
+     */
+    public function deleteCommendByBillRef(string $bill_ref): bool
+    {
+        try {
+            $sql = "DELETE FROM clients_commandes_livres WHERE ref_facture = ?;";
+            $con = new Connexion;
+            $db = $con->adminConnexion();
+            $query = $db->prepare($sql);
+            return $query->execute([$bill_ref]);
+        }catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
+        }
+    }
+
+    /**
+     * @param int $cmd_id
+     * @return bool
+     */
+    public function deleteCommend(int $cmd_id): bool
+    {
+        try {
+            $sql = "DELETE FROM clients_commandes_livres WHERE id = ?;";
+            $con = new Connexion;
+            $db = $con->adminConnexion();
+            $query = $db->prepare($sql);
+            return $query->execute([$cmd_id]);
+        }catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
+        }
     }
 }
 

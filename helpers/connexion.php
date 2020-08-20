@@ -12,9 +12,8 @@
 
 namespace helpers;
 
-require_once ("vendor/autoload.php");
-
 use PDO, PDOException;
+use utils\AppConfig;
 
 /**
  * Class qui permet de gérer la connexion à la base de données.
@@ -25,40 +24,43 @@ class Connexion {
      * @var PDO
      */
     private $db;
-    const HOST = 'mysql:host=ty56189-001.dbaas.ovh.net;port=35477;dbname=bookstore';
-
-    /**
-     * Fonction qui permet de connecter un client à la base de données.
-     * @return PDO
-     */
-    public function clientConnexion () {
-        $user = 'bookstoreClient';
-        $pass = 'bookStore2020';
-        try {
-            $this->db = new PDO (self::HOST, $user, $pass);
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            die('{ "error" => true, "message" => "Error lors de la connexion à la base de données : "' . $e->getMessage() .'"}');
-        }
-        return $this->db;
-    }
 
     /**
      * Fonction qui permet de connecter un administrateur à la base de données.
      * @return PDO
      */
-    public function adminConnexion () {
-        $user = 'bookstoreAdmin';
-        $pass = 'BkSem3rk1t';
+    public function adminConnexion (): PDO {
         try {
-            $db = new PDO (self::HOST, $user, $pass);
+            $db = new PDO (AppConfig::DNS, AppConfig::ADMIN_NAME, AppConfig::ADMIN_PASS);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         } catch (PDOException $e) {
-            die('{"error" => true, "message" => "Error lors de la connexion à la base de données : "' . $e->getMessage() .'"}');
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
         }
         return $db;
+    }
+
+    /**
+     * Fonction qui permet de connecter un client à la base de données.
+     * @return PDO
+     */
+    public function clientConnexion (): PDO {
+        try {
+            $this->db = new PDO (AppConfig::DNS, AppConfig::USER_NAME, AppConfig::USER_PASS);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
+        }
+        return $this->db;
     }
 
 }

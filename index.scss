@@ -1,0 +1,115 @@
+/*!
+ * Copyright (c) - 2020 by RonCoder
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: sans-serif;
+}
+.d-inline-block {
+  display: inline-block;
+  margin-top: 5px;
+}
+.container {
+  padding: 1%;
+  margin: 0 6%;
+  font-family: sans-serif;
+  .title{
+    color: orangered;
+  }
+  .text-indicator {
+    color: #00bf69;
+    font-weight: bold;
+  }
+  .var-indicator {
+    color: #0095b4;
+    font-weight: bold;
+    font-style: italic;
+  }
+  .sub-title {
+    color: #0095b4;
+  }
+  fieldset {
+    border: #86898a solid 1px;
+    font: inherit;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 5px;
+    ul {
+      list-style: none;
+    }
+  }
+  section {
+    margin: 15px 0;
+    .section-title {
+      color: #c32b00;
+    }
+  }
+  table{
+    margin: 2em 0 0 0;
+    width: 100%;
+    border-collapse: collapse;
+    caption {
+      color: firebrick;
+      font-size: 18px;
+    }
+    li {
+      list-style: none;
+    }
+    thead {
+      background: rgba(61, 202, 255, 0.38);
+    }
+    tbody {
+      color: #575358;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 5px 8px;
+      border: 1px solid #3dcaff;
+    }
+    tr th:nth-child(2) {
+      width: 75%;
+    }
+    form {
+      display: inline-block;
+      padding: 4px;
+      label {
+        color: blueviolet;
+        font-style: italic;
+        font-weight: bold;
+      }
+      input[type="text"], input[type="number"] {
+        text-overflow: ellipsis;
+        padding: 0 5px;
+      }
+    }
+  }
+  input[type="submit"], a {
+    margin: 0 5px;
+    background: #00bd66;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 3px;
+    font-size: 12px;
+    transition: .5s;
+    border-radius: 4px;
+    text-decoration: none;
+    &:hover {
+      background: #008b46;
+      cursor: pointer;
+    }
+  }
+}
+footer {
+  background: #134156;
+  color: #c7c7c7;
+  font-size: 13px;
+  margin: 2em 0 0 0;
+  padding: 3em 2em;
+  text-align: center;
+}

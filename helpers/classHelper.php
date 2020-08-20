@@ -13,8 +13,6 @@
 
 namespace helpers;
 
-require_once ("vendor/autoload.php");
-
 use models\Classe, PDOException;
 
 /**
@@ -56,8 +54,8 @@ class ClassHelper {
                 }
         }catch (PDOException $e) {
             $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation une classe en fonction de son identifiant. " . $e->getMessage()
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -84,8 +82,8 @@ class ClassHelper {
             $this->classes = $classes;
         }catch (PDOException $e) {
             $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation de tous les classes. " . $e->getMessage()
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die(json_encode($response));
         }
@@ -113,8 +111,8 @@ class ClassHelper {
             $this->classes = $classes;
         }catch (PDOException $e) {
             $response = array (
-                "Error" => true,
-                "Message" => "Erreur dans la requete de récuperation de tous les classes. " . $e->getMessage()
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
             );
             die (json_encode($response));
         }

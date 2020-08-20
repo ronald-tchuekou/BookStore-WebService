@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BookStore WebService</title>
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/icons8_school_2.ico">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">BookStore&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebService</h1>
+        <h2 class="sub-title">Mini documentation qui pésente comment utiliser se service web.</h2>
+        <section>
+            <h3 class="section-title">Récupération des données:</h3>
+            <p>
+                Pour la récupération des données provenant de la base de données de l'application, on doit uitilisé une adresse
+                <span class="text-indicator">URL</span>, puis transmetre les variables par la methode de transfère de données <span class="text-indicator">POST</span>.
+            </p><br>
+            <p>
+                Le resultat des requêtes sont présentés sous forme d'objet <span class="text-indicator">JSON => {"success": bool, "value": mixed}</span>
+            </p>
+            <p>
+                En cas d'erreurs, elles sont présentés sous forme d'objet <span class="text-indicator">JSON => {"error": bool, "message": string}</span>
+            </p>
+            <fieldset>
+                <legend>Descriptions des différents attributs : </legend>
+                <ul>
+                    <li><span class="var-indicator">success : </span>Etat de la requête, pour savoir si elle s'est exécutée.</li>
+                    <li><span class="var-indicator">value : </span>Valeur qui contient le resultat de la requête.</li>
+                    <li><span class="var-indicator">error : </span>Etat d'erreur dans la requête, pour savoir si elle s'est exécutée avec erreur.</li>
+                    <li><span class="var-indicator">message : </span>Message qui donne le détail sur l'erreur produite dans la requête.</li>
+                </ul>
+            </fieldset>
+            <table>
+                <caption>Tableau contenant les différent options de récupérations</caption>
+                <thead>
+                    <tr><th>Chemein de récupération (adresse url)</th><th>Variable(s) à passer</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/bookstore/get/book.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['class']</span> - pour récuperer tous les livres d'une classe.
+                                    <form method="post" action="./get/book.php">
+                                        <label for="class">class: </label>
+                                        <input required placeholder="ex: Terminale" title = "ex: Terminale" type="text" name="class" id="class"><input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['cycle']</span> - pour récuperer tous les livres d'un cycle.
+                                    <form method="post" action="./get/book.php">
+                                        <label for="cycle_b">cycle: </label>
+                                        <input required placeholder="ex: Secondaire Francophone" title = "ex: Secondaire Francophone" type="text" name="cycle" id="cycle_b">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['search']:(recherche)</span> - pour récuperer tous les livres dont <span class="text-indicator">le titre, l'édition, l'auteur</span>
+                                    correspond au contenu de <span class="text-indicator">search</span>
+                                    <form method="post" action="./get/book.php">
+                                        <label for="search">search: </label>
+                                        <input required placeholder="ex: Excellence, Djongwajar, NMI Education" title = "ex: Excellence, Djongwajar, NMI Education" type="text" name="search" id="search">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/get/classe.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    Pour récuperer tous les classes, on ne passe pas de variable.
+                                    <a href="./get/classe.php">Tout</a>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['cycle']</span> - pour récuperer tous les classes d'un cycle.
+                                    <form method="post" action="./get/classe.php">
+                                        <label for="cycle">cycle: </label>
+                                        <input required placeholder="ex: Secondaire Francophone" title = "ex: Secondaire Francophone" type="text" name="cycle" id="cycle">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/get/commend.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['id']</span> - pour récuperer une commande en fonction de son identifiant.
+                                    <form method="post" action="./get/commend.php">
+                                        <label for="id">id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="id" id="id">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['user_id']</span> - pour récuperer tous les commandes d'un client avec l'id (user_id).
+                                    <form method="post" action="./get/commend.php">
+                                        <label for="user_id">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['bill_ref']:(ref facture)</span> - pour récuperer tous les commandes d'une facture avec la réference (bill_ref).
+                                    <form method="post" action="./get/commend.php">
+                                        <label for="bill_ref">bill_ref: </label>
+                                        <input required placeholder="ex: S2132453131" title = "ex: S2132453131" type="text" name="bill_ref" id="bill_ref">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/get/bill.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['shipping_type']:(type livraison)</span> - Pour récuperer tous les factures d'un type de livraison (Insatantaneous, Express, Standard)
+                                    <form method="post" action="./get/bill.php">
+                                        <label for="shipping_type">shipping_type: </label>
+                                        <input required placeholder="ex: Express" title = "ex: Express" type="text" name="shipping_type" id="shipping_type">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['shipping_state']:(état livraison)</span> - Pour récuperer tous les factures pour un état (In Course, Delivered, )
+                                    <form method="post" action="./get/bill.php">
+                                        <label for="shipping_state">shipping_type: </label>
+                                        <input required placeholder="ex: Delivered" title = "ex: Delivered" type="text" name="shipping_state" id="shipping_state">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/get/shippingAddress.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['has_sa']:(id utilisateur)</span> - Pour vérifier si un utilisateur possède une adresse de livraison.
+                                    <form method="post" action="./get/shippingAddress.php">
+                                        <label for="has_sa">has_sa: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="has_sa" id="has_sa">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['user_id']</span> - Pour récuperer l'adresses de livraison d'un client.
+                                    <form method="post" action="./get/shippingAddress.php">
+                                        <label for="user_id_ship">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_ship">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['bill_ref']:(ref facture)</span> - Pour récuperer l'adresses de livraison d'une facture.
+                                    <form method="post" action="./get/shippingAddress.php">
+                                        <label for="bill_ref_ship">bill_ref: </label>
+                                        <input required placeholder="ex: F4564865654" title = "ex: F4564865654" type="text" name="bill_ref" id="bill_ref_ship">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/get/user.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['user_id']</span> - Pour récuperer un utilisateur (client).
+                                    <form method="post" action="./get/user.php">
+                                        <label for="user_id_">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['login'], $_POST['pass']</span> - Pour l'authentification d'un utilisateur (client) à partir de son <span class="text-indicator">email</span>.
+                                    <form method="post" action="./get/user.php">
+                                        <label for="login">login: </label>
+                                        <input required placeholder="ex: bookstore@roncoder.com" title = "ex: bookstore@roncoder.com" type="email" name="login" id="login">
+                                        <label for="pass_1">pass: </label>
+                                        <input required placeholder="mot de passe" title = "mot de passe" type="text" name="pass" id="pass_1">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
+                                    <span class="var-indicator">$_POST['phone'], $_POST['pass']</span> - Pour l'authentification d'un utilisateur (client) à partir de son <span class="text-indicator">numero de téléphone</span>.
+                                    <form method="post" action="./get/user.php">
+                                        <label for="phone">phone: </label>
+                                        <input required placeholder="ex: 655887744" title = "ex: 655887744" type="text" name="phone" id="phone">
+                                        <label for="pass_2">pass: </label>
+                                        <input required placeholder="mot de passe" title = "mot de passe" type="text" name="pass" id="pass_2">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h3 class="section-title">Ajout de données dans la database : </h3>
+            <p>
+                Pour l'ajout d'informations dans la base de données de l'application, on procède de la même manière que pour la recupération de données
+                (par une  adresse URL et la methode POST).
+            </p>
+            <table>
+                <caption>Tableau contenant les différent options d'ajout</caption>
+                <thead>
+                    <tr><th>Chemein de récupération (adresse url)</th><th>Variable(s) à passer</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/bookstore/post/user.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['name'], $_POST['surname'], $_POST['phone'], $_POST['login']:(email), $_POST['pass']</span> - pour ajouter un nouveau utilisateur (client).
+                                    <form method="post" action="./post/user.php">
+                                        <div class="d-inline-block"><label for="name">name: </label>
+                                        <input required placeholder="ex: toto" title = "ex: toto" type="text" name="name" id="name"></div>
+                                        <div class="d-inline-block"><label for="surname">surname: </label>
+                                        <input required placeholder="ex: tata" title = "ex: tata" type="text" name="surname" id="surname"></div>
+                                        <div class="d-inline-block"><label for="phone_u">phone: </label>
+                                        <input required placeholder="ex: 655887744" title = "ex: 655887744" type="text" name="phone" id="phone_u"></div>
+                                        <div class="d-inline-block"><label for="login_u">login: </label>
+                                        <input required placeholder="ex: toto@tata.com" title = "ex: toto@tata.com" type="email" name="login" id="login_u"></div>
+                                        <div class="d-inline-block"><label for="pass_u">pass: </label>
+                                        <input required placeholder="ex: 1234" title = "ex: 1234" type="text" name="pass" id="pass_u"></div>
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/post/commend.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['book_id'], $_POST['quantity'], $_POST['user_id']</span> - pour ajouter une nouvelle commande.
+                                    <form method="post" action="./post/commend.php">
+                                        <div class="d-inline-block"><label for="book_id">book_id: </label>
+                                            <input required placeholder="ex: 1" title = "ex: 1" type="number" name="book_id" id="book_id"></div>
+                                        <div class="d-inline-block"><label for="quantity">quantity: </label>
+                                            <input required placeholder="ex: 2" title = "ex: 2" type="number" name="quantity" id="quantity"></div>
+                                        <div class="d-inline-block"><label for="user_id_c">user_id: </label>
+                                            <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_c"></div>
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/post/bill.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['user_id'], $_POST['shipping_add_ref']:(ref_adresse), $_POST['shipping_type']:(type livraison), $_POST['total_prise']</span> - pour ajouter une nouvelle factrue.
+                                    <form method="post" action="./post/bill.php">
+                                        <div class="d-inline-block"><label for="user_id_b">user_id: </label>
+                                            <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_b"></div>
+                                        <div class="d-inline-block"><label for="shipping_add_ref">shipping_add_ref: </label>
+                                            <input required placeholder="ex: S322432432" title = "ex: S322432432" type="text" name="shipping_add_ref" id="shipping_add_ref"></div>
+                                        <div class="d-inline-block"><label for="shipping_type_b">shipping_type: </label>
+                                            <input required placeholder="ex: Instantaneous" title = "ex: Instantaneous" type="text" name="shipping_type" id="shipping_type_b"></div>
+                                        <div class="d-inline-block"><label for="total_prise">total_prise: </label>
+                                            <input required placeholder="ex: 10000" title = "ex: 10000" type="number" name="total_prise" id="total_prise"></div>
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>/bookstore/post/shippingAddress.php</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <span class="var-indicator">$_POST['receiver_name'], $_POST['phone'], $_POST['district']:(ville),
+                                        $_POST['street']:(localite), $_POST['more_desc']:(desc. adresse), $_POST['user_id']
+                                    </span> - pour ajouter une nouvelle adresse de livraison.
+                                    <form method="post" action="./post/shippingAddress.php">
+                                        <div class="d-inline-block"><label for="receiver_name">receiver_name: </label>
+                                            <input required placeholder="ex: Toto Tata" title = "ex: Toto Tata" type="text" name="receiver_name" id="receiver_name"></div>
+                                        <div class="d-inline-block"><label for="phone_s">phone: </label>
+                                            <input required placeholder="ex: 622432432" title = "ex: 622432432" type="text" name="phone" id="phone_s"></div>
+                                        <div class="d-inline-block"><label for="district">district: </label>
+                                            <input required placeholder="ex: Yaoude" title = "ex: Yaoude" type="text" name="district" id="district"></div>
+                                        <div class="d-inline-block"><label for="street">street: </label>
+                                            <input required placeholder="ex: Une localité à part" title = "ex: Une localité à part" type="text" name="street" id="street"></div>
+                                        <div class="d-inline-block"><label for="more_desc">more_desc: </label>
+                                            <input required placeholder="ex: Description de l'adresse" title = "ex: Description de l'adresse" type="text" name="more_desc" id="more_desc"></div>
+                                        <div class="d-inline-block"><label for="user_id_s">user_id: </label>
+                                            <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_s"></div>
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h3 class="section-title">Mise à jour de données dans la database : </h3>
+            <p>
+                Pour la mise à jour d'informations dans la base de données de l'application, une fois de plus on procède de la même manière que pour la recupération de données
+                (par une  adresse URL et la methode POST).
+            </p>
+            <table>
+                <caption>Tableau contenant les différent options de mise à jour</caption>
+                <thead>
+                <tr><th>Chemein de récupération (adresse url)</th><th>Variable(s) à passer</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>/bookstore/update/user.php</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <span class="var-indicator">$_POST['login']:(email), $_POST['user_id']</span> - pour modifier l'adresse email d'utilisateur (client).
+                                <form method="post" action="./update/user.php">
+                                    <div class="d-inline-block"><label for="login_up">login: </label>
+                                        <input required placeholder="ex: toto@tata.com" title = "ex: toto@tata.com" type="email" name="login" id="login_up"></div>
+                                    <div class="d-inline-block"><label for="user_id_up1">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_up1"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['phone'], $_POST['user_id']</span> - pour modifier le numero de téléphone d'utilisateur (client).
+                                <form method="post" action="./update/user.php">
+                                    <div class="d-inline-block"><label for="phone_up">phone: </label>
+                                        <input required placeholder="ex: 655884477" title = "ex: 655884477" type="text" name="phone" id="phone_up"></div>
+                                    <div class="d-inline-block"><label for="user_id_up2">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_up2"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['pass'], $_POST['user_id']</span> - pour modifier le mot de passe d'utilisateur (client).
+                                <form method="post" action="./update/user.php">
+                                    <div class="d-inline-block"><label for="pass_up">pass: </label>
+                                        <input required placeholder="ex: 1234" title = "ex: 1234" type="text" name="pass" id="pass_up"></div>
+                                    <div class="d-inline-block"><label for="user_id_up3">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_up3"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['is_admin']:(1/0), $_POST['user_id']</span> - pour pour indiquer si un tilisateur (client) est admin ou pas.
+                                <form method="post" action="./update/user.php">
+                                    <div class="d-inline-block"><label for="is_admin">is_admin: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" min="0" max="1" name="is_admin" id="is_admin"></div>
+                                    <div class="d-inline-block"><label for="user_id_up4">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_up4"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['last_connexion']:(id utilisateur)</span> - pour modifier la date de la dernière connexion d'utilisateur (client).
+                                <form method="post" action="./update/user.php">
+                                    <div class="d-inline-block"><label for="last_connexion">last_connexion: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="last_connexion" id="last_connexion"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>/bookstore/update/commend.php</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <span class="var-indicator">$_POST['validate']:(id commande)</span> - pour valider une commande.
+                                <form method="post" action="./update/commend.php">
+                                    <div class="d-inline-block"><label for="validate">validate: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="validate" id="validate"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['billed']:(id commande), $_POST['bill_ref']:( ref facture)</span> - pour facturer une commande.
+                                <form method="post" action="./update/commend.php">
+                                    <div class="d-inline-block"><label for="billed">billed: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" min="1" type="number" name="billed" id="billed"></div>
+                                    <div class="d-inline-block"><label for="bill_ref_up">bill_ref: </label>
+                                        <input required placeholder="ex: F4564754564" title = "ex: F4564754564" type="text" name="bill_ref" id="bill_ref_up"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['new_q']:(quantité livre), $_POST['cmd_id'], $_POST['book_prise']:(prix livre)</span> - pour modifier la quantité de livre.
+                                <form method="post" action="./update/commend.php">
+                                    <div class="d-inline-block"><label for="new_q">new_q: </label>
+                                        <input required placeholder="ex: 10" title = "ex: 10" type="number" name="new_q" id="new_q"></div>
+                                    <div class="d-inline-block"><label for="cmd_id">cmd_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" min="1" type="number" name="cmd_id" id="cmd_id"></div>
+                                    <div class="d-inline-block"><label for="book_prise">book_prise: </label>
+                                        <input required placeholder="ex: 2000" title = "ex: 2000" min="500" type="number" name="book_prise" id="book_prise"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>/bookstore/update/bill.php</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <span class="var-indicator">$_POST['new_state']:(état), $_POST['bill_ref']: (ref facture)</span> - pour modifier l'état d'une factrue (Delivered, In Course, Obsolete).
+                                <form method="post" action="./update/bill.php">
+                                    <div class="d-inline-block"><label for="new_state">new_state: </label>
+                                        <input required placeholder="ex: Delivered" title = "ex: Delivered" type="text" name="new_state" id="new_state"></div>
+                                    <div class="d-inline-block"><label for="bill_ref_up1">bill_ref: </label>
+                                        <input required placeholder="ex: F322432432" title = "ex: F322432432" type="text" name="bill_ref" id="bill_ref_up1"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['new_tp']:(prix total), $_POST['bill_ref']: (ref facture)</span> - pour modifier le prix total d'une factrue.
+                                <form method="post" action="./update/bill.php">
+                                    <div class="d-inline-block"><label for="new_tp">new_tp: </label>
+                                        <input required placeholder="ex: 20000" title = "ex: 20000" type="number" name="new_tp" id="new_tp"></div>
+                                    <div class="d-inline-block"><label for="bill_ref_up2">bill_ref: </label>
+                                        <input required placeholder="ex: F322432432" title = "ex: F322432432" type="text" name="bill_ref" id="bill_ref_up2"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['ship_type']:(type livraison), $_POST['bill_ref']: (ref facture)</span> - pour modifier le type de livraison d'une factrue.
+                                <form method="post" action="./update/bill.php">
+                                    <div class="d-inline-block"><label for="ship_type">ship_type: </label>
+                                        <input required placeholder="ex: Delivered" title = "ex: Delivered" type="text" name="ship_type" id="ship_type"></div>
+                                    <div class="d-inline-block"><label for="bill_ref_up3">bill_ref: </label>
+                                        <input required placeholder="ex: F322432432" title = "ex: F322432432" type="text" name="bill_ref" id="bill_ref_up3"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>/bookstore/update/shippingAddress.php</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <span class="var-indicator">$_POST['username'], $_POST['shipping_ref']:(ref adresse de livraison)</span> - pour modifier le nom du receleur dans une adresse de livraison.
+                                <form method="post" action="./update/shippingAddress.php">
+                                    <div class="d-inline-block"><label for="username_up">username: </label>
+                                        <input required placeholder="ex: Toto Tata" title = "ex: Toto Tata" type="text" name="username" id="username_up"></div>
+                                    <div class="d-inline-block"><label for="shipping_ref">shipping_ref: </label>
+                                        <input required placeholder="ex: S545215764" title = "ex: S545215764" type="text" name="shipping_ref" id="shipping_ref"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['phone'], $_POST['shipping_ref']:(ref adresse de livraison)</span> - pour modifier le numero de téléphone du receleur dans une adresse de livraison.
+                                <form method="post" action="./update/shippingAddress.php">
+                                    <div class="d-inline-block"><label for="phone_up_s">phone: </label>
+                                        <input required placeholder="ex: 622432432" title = "ex: 622432432" type="text" name="phone" id="phone_up_s"></div>
+                                    <div class="d-inline-block"><label for="shipping_ref1">shipping_ref: </label>
+                                        <input required placeholder="ex: S545215764" title = "ex: S545215764" type="text" name="shipping_ref" id="shipping_ref1"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['district']:(ville), $_POST['shipping_ref']:(ref adresse de livraison)</span> - pour modifier la ville d'une adresse de livraison.
+                                <form method="post" action="./update/shippingAddress.php">
+                                    <div class="d-inline-block"><label for="district_up_s">district: </label>
+                                        <input required placeholder="ex: Yaoude" title = "ex: Yaoude" type="text" name="district" id="district_up_s"></div>
+                                    <div class="d-inline-block"><label for="shipping_ref2">shipping_ref: </label>
+                                        <input required placeholder="ex: S545215764" title = "ex: S545215764" type="text" name="shipping_ref" id="shipping_ref2"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['street']:(localité), $_POST['shipping_ref']:(ref adresse de livraison)</span> - pour modifier la localité d'une adresse de livraison.
+                                <form method="post" action="./update/shippingAddress.php">
+                                    <div class="d-inline-block"><label for="street_up_s">street: </label>
+                                        <input required placeholder="ex: Une localité à part" title = "ex: Une localité à part" type="text" name="street" id="street_up_s"></div>
+                                    <div class="d-inline-block"><label for="shipping_ref3">shipping_ref: </label>
+                                        <input required placeholder="ex: S545215764" title = "ex: S545215764" type="text" name="shipping_ref" id="shipping_ref3"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                            <li>
+                                <span class="var-indicator">$_POST['add_desc']:(desc. adresse), $_POST['shipping_ref']:(ref adresse de livraison)</span> - pour modifier la description d'une adresse de livraison.
+                                <form method="post" action="./update/shippingAddress.php">
+                                    <div class="d-inline-block"><label for="more_desc_up_s">more_desc: </label>
+                                        <input required placeholder="ex: Description de l'adresse" title = "ex: Description de l'adresse" type="text" name="more_desc" id="more_desc_up_s"></div>
+                                    <div class="d-inline-block"><label for="shipping_ref4">shipping_ref: </label>
+                                        <input required placeholder="ex: S545215764" title = "ex: S545215764" type="text" name="shipping_ref" id="shipping_ref4"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h3 class="section-title">Suppréssion de données dans la database : </h3>
+            <p>
+                Pour la suppréssion d'informations dans la base de données de l'application, une fois de plus on procède de la même manière que pour la recupération de données
+                (par une  adresse URL et la methode POST).
+            </p>
+            <table>
+                <caption>Tableau contenant les différent options de suppréssion</caption>
+                <thead>
+                <tr><th>Chemein de récupération (adresse url)</th><th>Variable(s) à passer</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>/bookstore/delete/commend.php</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <span class="var-indicator">$_POST['cmd_id']:(id commande)</span> - pour supprimer une commande.
+                                <form method="post" action="./delete/commend.php">
+                                    <div class="d-inline-block"><label for="cmd_id_d">cmd_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" min="1" name="cmd_id" id="cmd_id_d"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>/bookstore/delete/shippingAddress.php</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <span class="var-indicator">$_POST['ship_add_ref']:(ref adresse livraison)</span> - pour supprimer une adresse de livraison.
+                                <form method="post" action="./delete/shippingAddress.php">
+                                    <div class="d-inline-block"><label for="ship_add_ref">ship_add_ref: </label>
+                                        <input required placeholder="ex: S4561415765" title = "ex: S4561415765" type="number" name="ship_add_ref" id="ship_add_ref"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>/bookstore/delete/bill.php</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <span class="var-indicator">$_POST['bill_ref']: (ref facture)</span> - pour la suppréssion d'une factrue.
+                                <form method="post" action="./delete/bill.php">
+                                    <div class="d-inline-block"><label for="bill_ref_d">bill_ref: </label>
+                                        <input required placeholder="ex: F322432432" title = "ex: F322432432" type="text" name="bill_ref" id="bill_ref_d"></div>
+                                    <input type="submit" value="OK">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <footer class="footer">
+        <div class="img"><img src="./assets/bookstore_icon.png" alt="bookstore icon"></div>
+        <div class="copyright">&copy;&nbsp;&nbsp;Copyright - 2020, DarkComputerClub and roncoder, tous droits résevés</div>
+    </footer>
+</body>
+</html>
