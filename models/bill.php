@@ -9,47 +9,7 @@ namespace models;
  */
 class Bill
 {
-    /**
-     * @var string
-     */
-    private $ref;
-    /**
-     * @var array
-     */
-    private $commends;
-    /**
-     * @var user
-     */
-    private $user;
-    /**
-     * @var shippingAddress
-     */
-    private $shippingAddress;
-    /**
-     * @var string
-     */
-    private $shipping_date;
-    /**
-     * @var string
-     */
-    private $state;
-    /**
-     * @var float
-     */
-    private $total_prise;
-    /**
-     * @var string
-     */
-    private $shipping_type;
-    /**
-     * @var string
-     */
-    private $payment_type;
-    /**
-     * @var float
-     */
-    private $shipping_cost;
-
+  
     /**
      * bill constructor.
      * @param string $ref
@@ -63,8 +23,8 @@ class Bill
      * @param string $payment_type
      * @param float $shipping_cost
      */
-    public function __construct($ref, $commends, user $user, shippingAddress $shippingAddress, $shipping_date, $state,
-                                $total_prise, string $shipping_type, $payment_type, $shipping_cost) {
+    public function setData(string $ref, array $commends, user $user, shippingAddress $shippingAddress, string $shipping_date, string $state,
+                                float $total_prise, string $shipping_type, string $payment_type, float $shipping_cost) {
         $this->ref = $ref;
         $this->commends = $commends;
         $this->user = $user;

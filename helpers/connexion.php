@@ -19,12 +19,7 @@ use utils\AppConfig;
  * Class qui permet de gérer la connexion à la base de données.
  */
 class Connexion {
-
-    /**
-     * @var PDO
-     */
-    private $db;
-
+    
     /**
      * Fonction qui permet de connecter un administrateur à la base de données.
      * @return PDO

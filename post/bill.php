@@ -13,11 +13,11 @@ use helpers\BillHelper;
 if (isset($_POST) && !empty($_POST)) {
     $billHelper = new BillHelper();
     try {
-        $added = $billHelper->addBill($_POST['user_id'], $_POST['shipping_add_ref'], $_POST['shipping_type'],
+        $bill_ref = $billHelper->addBill($_POST['user_id'], $_POST['shipping_add_ref'], $_POST['shipping_type'],
             $_POST['total_prise']);
         die(json_encode(array (
-            'success' => $added,
-            'value' => 'Bill creation'
+            'success' => true,
+            'value' => $bill_ref
         )));
     } catch (Exception $e) {
         die(json_encode(array (

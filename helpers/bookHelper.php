@@ -27,19 +27,9 @@ use models\book, PDOException;
                     INNER JOIN classes ON livres_classes.id_classe = classes.id";
 
      /**
-      * @var array
-      */
-     private $books;
-
-     /**
-      * @var Book
-      */
-     private $book;
-
-     /**
       * BookHelper constructor.
       */
-     public function __construct(){ }
+     public function __construct(){ $this->book = new Book(); }
 
      /**
       * @return array
@@ -79,11 +69,9 @@ use models\book, PDOException;
              $request->execute([':book_id' => $book_id]);
 
              $fetchList = $request->fetchAll();
-             if (count($fetchList) !== 0)
-                 foreach ($fetchList as $item) {
-                     $this->book = new Book($item->book_id, $item->book_title, $item->book_author, $item->book_editor, $item->book_image,
-                         $item->book_state, $item->cycle, $item->classe, $item->book_unit_prise, $item->book_stock_quantity);
-                 }
+             if (count($fetchList) > 0)
+                 foreach ($fetchList as $item) 
+                    $this->book = $this->fetchIt($item);
          } catch (PDOException $e) {
              $response = array (
                  'error' => true,
@@ -91,6 +79,24 @@ use models\book, PDOException;
              );
              die(json_encode($response));
          }
+     }
+     /**
+      * Fonction qui retourne un objet Book.
+      */
+     private function fetchIt($item) {
+        $book_id = $item->book_id;
+        $book_title = $item->book_title;
+        $book_author = $item->book_author === null ? "" : $item->book_author;
+        $book_editor = $item->book_editor === null ? "" : $item->book_editor;
+        $book_image = $item->book_image === null ? "" : $item->book_image;
+        $book_state = $item->book_state;
+        $cycle = $item->cycle;
+        $classe = $item->classe;
+        $book_unit_prise = $item->book_unit_prise;
+        $book_stock_quantity = $item->book_stock_quantity;
+        $b = new Book();
+       return $b->setData($book_id, $book_title, $book_author, $book_editor, $book_image,
+            $book_state, $cycle, $classe, $book_unit_prise, $book_stock_quantity);
      }
      /**
       * Function qui permet de récuperer tous les livres de la database.
@@ -106,8 +112,7 @@ use models\book, PDOException;
              $fetchList = $request->fetchAll();
              $books = [];
              foreach ($fetchList as $item) {
-                 $book = new Book($item->book_id, $item->book_title, $item->book_author, $item->book_editor, $item->book_image,
-                     $item->book_state, $item->cycle, $item->classe, $item->book_unit_prise, $item->book_stock_quantity);
+                 $book = $this->fetchIt($item);
                  array_push($books, $book);
              }
              $this->books = $books;
@@ -135,11 +140,9 @@ use models\book, PDOException;
 
             $fetchList = $query->fetchAll();
             $books = [];
-            foreach ($fetchList as $item) {
-                $book = new Book($item->book_id, $item->book_title, $item->book_author, $item->book_editor, $item->book_image,
-                    $item->book_state, $item->cycle, $item->classe, $item->book_unit_prise, $item->book_stock_quantity);
-                array_push($books, $book);
-            }
+            foreach ($fetchList as $item)
+                array_push($books, $this->fetchIt($item));
+            
             $this->books = $books;
         } catch (PDOException $e) {
             $response = array (
@@ -161,15 +164,13 @@ use models\book, PDOException;
             $con = new Connexion;
             $db = $con->clientConnexion();
             $query = $db->prepare($sql);
-            $query->execute(array(':cycle' => $cycle));
+            $query->execute(array(':cycle' => '%' . $cycle . '%'));
 
             $fetchList = $query->fetchAll();
             $books = [];
-            foreach ($fetchList as $item) {
-                $book = new Book($item->book_id, $item->book_title, $item->book_author, $item->book_editor, $item->book_image,
-                    $item->book_state, $item->cycle, $item->classe, $item->book_unit_prise, $item->book_stock_quantity);
-                array_push($books, $book);
-            }
+            foreach ($fetchList as $item)
+                array_push($books, $this->fetchIt($item));
+            
             $this->books = $books;
         } catch (PDOException $e) {
             $response = array (
@@ -196,11 +197,9 @@ use models\book, PDOException;
 
             $fetchList = $query->fetchAll();
             $books = [];
-            foreach ($fetchList as $item) {
-                $book = new Book($item->book_id, $item->book_title, $item->book_author, $item->book_editor, $item->book_image,
-                    $item->book_state, $item->cycle, $item->classe, $item->book_unit_prise, $item->book_stock_quantity);
-                array_push($books, $book);
-            }
+            foreach ($fetchList as $item) 
+                array_push($books, $this->fetchIt($item));
+            
             $this->books = $books;
         } catch (PDOException $e) {
             $response = array (
@@ -212,43 +211,9 @@ use models\book, PDOException;
      }
 
      /**
-      * Fonction qui permet de convertir un tableau de livres en string.
-      * @return string
+      * Fonction qui permet de convertir la liste de livre en json.
       */
-    public function getStringArray() {
-        if(empty($this->books))
-            $result = "[]";
-        else{
-            $result = "[";
-            for ($i = 0; $i < count($this->books); $i ++) {
-                $this->book = $this->books[$i];
-                $result .= $this->getStringObject();
-                $result .= $i === count($this->books)-1 ? '' : ',';
-            }
-            $result .= "]";
-        }
-        return $result;
-    }
-
-     /**
-      * Fonction qui permet de convertir un livre en object string.
-      * @return string
-      */
-    public function getStringObject () : string {
-        if ($this->book === null)
-            return '{}';
-        $value = $this->book;
-        return '{
-                  "id": '. $value->getId() .',
-                  "title": "'. $value->getTitle() .'",
-                  "author": "'. $value->getAuthor() .'",
-                  "edition": "'. $value->getEditor() .'",
-                  "image_front": "'. $value->getImage1Front() .'",
-                  "book_state": "'. $value->getBookState() .'",
-                  "cycle": "'. $value->getCycle() .'",
-                  "class": "'. $value->getClasse() .'",
-                  "unite_prise": '. $value->getUnitPrise() .',
-                  "stock_quantity": '. $value->getStockQuantity() .'
-                }';
-    }
+     public function getJsonForm () {
+         return json_decode($this->books);
+     }
  }

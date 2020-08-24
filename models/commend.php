@@ -8,34 +8,6 @@ namespace models;
  */
 class Commend
 {
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var Book
-     */
-    private $book;
-    /**
-     * @var int
-     */
-    private $quantity;
-    /**
-     * @var float
-     */
-    private $total_prise;
-    /**
-     * @var String
-     */
-    private $date_cmd;
-    /**
-     * @var int
-     */
-    private $is_billed;
-    /**
-     * @var int
-     */
-    private $is_validate;
 
     /**
      * commend constructor.
@@ -47,7 +19,7 @@ class Commend
      * @param int $is_billed
      * @param int $is_validate
      */
-    public function __construct($id, Book $book, $quantity, $total_prise, $date_cmd, $is_billed, $is_validate)
+    public function setData(int $id, Book $book, int $quantity, float $total_prise, string $date_cmd, int $is_billed, int $is_validate)
     {
         $this->id = $id;
         $this->book = $book;
@@ -56,6 +28,7 @@ class Commend
         $this->date_cmd = $date_cmd;
         $this->is_billed = $is_billed;
         $this->is_validate = $is_validate;
+        $this->bill_ref = "";
     }
 
     /**
@@ -168,6 +141,22 @@ class Commend
     public function setIsValidate(int $is_validate): void
     {
         $this->is_validate = $is_validate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBill_ref (): string 
+    {
+        return $this->bill_ref;
+    }
+
+    /**
+     * @param string $bill_ref
+     */
+    public function setBill_ref (string $bill_ref): void
+    {
+        $this->bill_ref = $bill_ref;
     }
 
 }

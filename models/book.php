@@ -7,50 +7,10 @@ namespace models;
  * Class Book
  */
 class Book {
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var string
-     */
-    private $title;
-    /**
-     * @var string
-     */
-    private $author;
-    /**
-     * @var string
-     */
-    private $editor;
-    /**
-     * @var string
-     */
-    private $image1_front;
-    /**
-     * @var string
-     */
-    private $book_state;
-    /**
-     * @var string
-     */
-    private $cycle;
-    /**
-     * @var string
-     */
-    private $classe;
-    /**
-     * @var float
-     */
-    private $unit_prise;
-    /**
-     * @var int
-     */
-    private $stock_quantity;
-
+   
     /**
      * Book constructor.
-     * @param integer $id identifiant du liver.
+     * @param int $id identifiant du liver.
      * @param string $title Titre du liver.
      * @param string $author Auteur du liver.
      * @param string $editor Edition du livre.
@@ -59,9 +19,9 @@ class Book {
      * @param string $cycle Cycle au quel appartient le liver.
      * @param string $classe classe au quel appartient le liver.
      * @param float $unit_prise Prix unitaire du livre.
-     * @param integer $stock_quantity Quantité en stocke.
+     * @param int $stock_quantity Quantité en stocke.
      */
-    public function __construct($id, $title, $author, $editor, $image1_front, $book_state, $cycle, $classe, $unit_prise, $stock_quantity)
+    public function setData(int $id, string $title, string $author, string $editor, string $image1_front, string $book_state, string $cycle, string $classe, float $unit_prise, int $stock_quantity)
     {
         $this->id = $id;
         $this->title = $title;

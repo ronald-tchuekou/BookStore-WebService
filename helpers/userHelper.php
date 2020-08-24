@@ -17,10 +17,6 @@ use PDOException;
  */
 class UserHelper
 {
-    /**
-     * @var User
-     */
-    private $user;
 
     public const QUERY = "SELECT id as user_id, nom as user_name, prenom as user_surname, telephone as user_phone, 
                             email as user_email, mot_de_passe as user_pass, est_admin as user_is_admin
@@ -29,7 +25,7 @@ class UserHelper
     /**
      * User constructor.
      */
-    public function __construct() { }
+    public function __construct() { $this->user = new User(); }
 
     /**
      * @return User
@@ -60,7 +56,7 @@ class UserHelper
 
             $userList = $query->fetchAll();
             foreach ($userList as $item) {
-                $this->user = new User($item->user_id, $item->user_name, $item->user_surname, $item->user_phone, $item->user_email,$item->user_pass, $item->user_is_admin);
+                $this->user->setData($item->user_id, $item->user_name, $item->user_surname, $item->user_phone, $item->user_email,$item->user_pass, $item->user_is_admin);
             }
         }catch (PDOException $e) {
             $response = array (
@@ -74,10 +70,10 @@ class UserHelper
     /**
      * Fonction qui permet d'ajouter un nouveau utilisateur dans la base de données.
      * @param User $user
-     * @return bool
+     * @return string id of the last insertion.
      * @throws Exception
      */
-    public function addUser (User $user): bool {
+    public function addUser (User $user): string {
         try {
             $sql = "INSERT INTO clients (nom, prenom, telephone, mot_de_passe, date_inscription, email, est_admin)
                     VALUES (?, ?, ?, ?, ?, ?, ?);";
@@ -89,9 +85,9 @@ class UserHelper
             // Hashing du mode pass.
             $pass = hash('md2', $user->getPassword());
 
-            return $query->execute([$user->getName(), $user->getSurname(), $user->getPhone(), $pass,
+            $query->execute([$user->getName(), $user->getSurname(), $user->getPhone(), $pass,
                 $date->format('Y-m-d H:i:s'), $user->getLogin(), $user->getIsAdmin()]);
-
+            return $db->lastInsertId();
         }catch (PDOException $e) {
             $response = array (
                 'error' => true,
@@ -133,23 +129,11 @@ class UserHelper
     }
 
     /**
-     * Fonction qui permet de convertir un tableau de User en string.
+     * Fonction qui permet de convertir un tableau de User en jspn.
      * @return string
      */
-    public function getStringObject() {
-        if($this->user === null)
-            return "{}";
-        else {
-            return '{
-              "id": ' . $this->user->getId() . ',
-              "name": "' . $this->user->getName() . '",
-              "surname": "' . $this->user->getSurname() . '",
-              "phone": "' . $this->user->getPhone() . '",
-              "login": "' . $this->user->getLogin() . '",
-              "password": "' . $this->user->getPassword() . '",
-              "is_admin": ' . $this->user->getIsAdmin() . '
-            }';
-        }
+    public function getJsonForm() {
+        return json_encode($this->user);
     }
 
     /**

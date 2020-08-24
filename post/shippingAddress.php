@@ -15,11 +15,11 @@ use models\ShippingAddress;
 if (isset($_POST) && !empty($_POST)){
     $shippingAddressHelper = new ShippingAddressHelper();
     try {
-        $added = $shippingAddressHelper->addShippingAddress(new ShippingAddress('', $_POST['receiver_name'],
-            $_POST['phone'], $_POST['district'], $_POST['street'], $_POST['more_desc'], 0), $_POST['user_id']);
+        $shipping_ref = $shippingAddressHelper->addShippingAddress(new ShippingAddress('', $_POST['receiver_name'],
+            $_POST['phone'], $_POST['district'], $_POST['street'], $_POST['more_desc'], 1), $_POST['user_id']);
         die(json_encode (array (
-            'success' => $added,
-            'value' => 'Shipping Address creation'
+            'success' => true,
+            'value' => $shipping_ref
         )));
     } catch (Exception $e) {
         die(json_encode(array (

@@ -8,23 +8,7 @@ namespace models;
  */
 class Classe
 {
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $libelle;
-    /**
-     * @var string
-     */
-    private $cycle;
-
+  
     /**
      * classe constructor.
      * @param int $id
@@ -32,7 +16,7 @@ class Classe
      * @param string $libelle
      * @param string $cycle
      */
-    public function __construct($id, $name, $libelle, $cycle)
+    public function setData(int $id, string $name, string $libelle, string $cycle)
     {
         $this->id = $id;
         $this->name = $name;

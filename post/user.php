@@ -17,12 +17,12 @@ use models\User;
 if (isset($_POST) && !empty($_POST)){
     $userHelper = new UserHelper();
     try {
-        $added = $userHelper->addUser(new User(
+        $user_id = $userHelper->addUser(new User(
             0, $_POST['name'], $_POST['surname'], $_POST['phone'], $_POST['login'], $_POST['pass'], 0
         ));
         die(json_encode(array(
-            'success' => $added,
-            'value' => 'User creation'
+            'success' => true,
+            'value' => $user_id
         )));
     } catch (Exception $e) {
         die(json_encode(array (

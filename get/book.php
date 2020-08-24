@@ -7,6 +7,7 @@
 require_once '../vendor/autoload.php';
 
 use helpers\BookHelper;
+use utils\AppConst;
 
 $bookHelper = new BookHelper();
 
@@ -20,6 +21,12 @@ if (isset($_POST) && !empty($_POST)):
         $bookHelper->getBookBySearchQuery($_POST['search']);
     endif;
 
-    die('{"success":true, "value":'. $bookHelper->getStringArray() .'}');
+    $response = array (
+        "success" => true,
+        "value" => $bookHelper->getBooks()
+    );
+
+    AppConst::convert_from_latin1_to_utf8_recursively($response);
+    die(json_encode($response, JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE));
 
 endif;

@@ -8,35 +8,7 @@ namespace models;
  */
 class User
 {
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $surname;
-    /**
-     * @var string
-     */
-    private $phone;
-    /**
-     * @var string
-     */
-    private $login;
-    /**
-     * @var string
-     */
-    private $password;
-    /**
-     * @var int
-     */
-    private $is_admin;
-
+ 
     /**
      * user constructor.
      * @param int $id
@@ -47,7 +19,7 @@ class User
      * @param string $password
      * @param int $is_admin
      */
-    public function __construct($id, $name, $surname, $phone, $login, $password, $is_admin)
+    public function setData(int $id, string $name, string $surname, string $phone, string $login, string $password, int $is_admin)
     {
         $this->id = $id;
         $this->name = $name;

@@ -18,22 +18,16 @@ use utils\AppConst;
  * @package helpers
  */
 class BillHelper {
-    /**
-     * @var array
-     */
-    private $bills;
-    /**
-     * @var Bill;
-     */
-    private $bill;
-    /**
-     * @var string
-     */
-    private $bill_ref;
+
     /**
      * BillHelper constructor.
      */
-    public function __construct() { }
+    public function __construct() { $this->bill = new Bill(); }
+    
+    /**
+     * Fonction qui retourne la liste de factures.
+     */
+    public function getBills () { return $this->bills; }
 
     /**
      * Fonction qui permet de récuprerer tous les factures de même type de livraison.
@@ -48,12 +42,12 @@ class BillHelper {
             )));
 
         try{
-            $sql = "SELECT * FROM factures  WHERE type_livraison = :shippingType;";
+            $sql = "SELECT * FROM factures  WHERE type_livraison LIKE :shippingType;";
 
             $con = new Connexion;
             $db = $con->clientConnexion();
             $query = $db->prepare($sql);
-            $query->execute([":shippingType" => $shippingType]);
+            $query->execute([":shippingType" => '%' . $shippingType . '%']);
 
             $billList = $query->fetchAll();
             $bills = [];
@@ -74,7 +68,7 @@ class BillHelper {
                 $commendHelper->getCommendsByBillRef($item->ref_facture);
                 $commends = $commendHelper->getCommends();
 
-                $this->bill = new Bill($item->ref_facture, $commends, $user, $shippingAddress, $item->date_livraison,
+                $this->bill->setData($item->ref_facture, $commends, $user, $shippingAddress, $item->date_livraison,
                     $item->etat, $item->net_a_payer, $item->type_livraison, $item->type_payement, $item->frais_livraison);
 
                 array_push($bills, $this->bill);
@@ -103,12 +97,12 @@ class BillHelper {
             )));
 
         try{
-            $sql = "SELECT * FROM factures  WHERE etat = :state;";
+            $sql = "SELECT * FROM factures  WHERE etat LIKE :state;";
 
             $con = new Connexion;
             $db = $con->clientConnexion();
             $query = $db->prepare($sql);
-            $query->execute([":state" => $state]);
+            $query->execute([":state" => '%' . $state . '%']);
 
             $billList = $query->fetchAll();
             $bills = [];
@@ -129,7 +123,7 @@ class BillHelper {
                 $commendHelper->getCommendsByBillRef($item->ref_facture);
                 $commends = $commendHelper->getCommends();
 
-                $this->bill = new Bill($item->ref_facture, $commends, $user, $shippingAddress, $item->date_livraison,
+                $this->bill->setData($item->ref_facture, $commends, $user, $shippingAddress, $item->date_livraison,
                     $item->etat, $item->net_a_payer, $item->type_livraison, $item->type_payement, $item->frais_livraison);
 
                 array_push($bills, $this->bill);
@@ -152,9 +146,9 @@ class BillHelper {
      * @param string $shipping_add_ref
      * @param string $shipping_type
      * @param float $total_prise
-     * @return bool
+     * @return string id of this last insertion.
      */
-    public function addBill ($user_id, $shipping_add_ref, $shipping_type, $total_prise) : bool {
+    public function addBill ($user_id, $shipping_add_ref, $shipping_type, $total_prise) : string {
         if (!AppConst::isShippingType($shipping_type))
             die(json_encode(array (
                 'error' => true,
@@ -170,12 +164,13 @@ class BillHelper {
             $con = new Connexion;
             $db = $con->adminConnexion();
             $query = $db->prepare($sql);
-            return $query->execute([':bill_ref' => $this->generateBillRef(), ':user_id' => $user_id,
+            $query->execute([':bill_ref' => $this->generateBillRef(), ':user_id' => $user_id,
                 ':shipping_add_ref' => $shipping_add_ref, ':payment_type' => AppConst::PAYMENT_AT_SHIPPING,
                 ':shipping_type' => $shipping_type, ':shipping_cost' => $this->getShippingCost($shipping_type),
                 ':shipping_date' => $this->getShippingDate($shipping_type), ':total_prise' => $total_prise,
                 ':state' => AppConst::BILL_IN_COURSE]);
-
+            
+            return $this->bill_ref;
         }catch (PDOException $e) {
             $response = array (
                 'error' => true,
@@ -217,56 +212,11 @@ class BillHelper {
     }
 
     /**
-     * Fonction qui permet de convertir une facture en string.
+     * Fonction qui permet de convertir la liste de factures en json.
      * @return string
      */
-    public function getStringObject () : string {
-        if ($this->bill === null)
-            return '{}';
-
-        $bill = $this->bill;
-
-        $userHelper = new UserHelper();
-        $userHelper->setUser($bill->getUser());
-
-        $shippingAddressHelper = new ShippingAddressHelper();
-        $shippingAddressHelper->setShippingAddress($bill->getShippingAddress());
-
-        $commendHelper = new CommendHelper();
-        $commendHelper->setCommends($bill->getCommends());
-
-        return '{
-                "ref": "' . $bill->getRef() . '",
-                "shipping_date": "' . $bill->getShippingDate() .'",
-                "shipping_type": "' . $bill->getShippingType() .'",
-                "state": "' . $bill->getState() .'",
-                "total_prise": ' . $bill->getTotalPrise() .',
-                "payment_type": "' . $bill->getPaymentType() . '",
-                "shipping_cost": ' . $bill->getShippingCost() .',
-                "user": ' . $userHelper->getStringObject() . ',
-                "shipping_address": ' . $shippingAddressHelper->getStringObject() . ',
-                "commends": ' . $commendHelper->getStringArray() . '
-            }';
-    }
-
-
-    /**
-     * Fonction qui permet de convertir un tableau de facture en string.
-     * @return string
-     */
-    public function getStringArray() {
-        if(empty($this->bills))
-            $result = "[]";
-        else{
-            $result = "[";
-            for ($i = 0; $i < count($this->bills); $i ++) {
-                $this->bill = $this->bills[$i];
-                $result .= $this->getStringObject();
-                $result .= $i === count($this->bills)-1 ? '' : ',';
-            }
-            $result .= "]";
-        }
-        return $result;
+    public function getJsonForm () : string {
+        return json_encode($this->bills);
     }
 
     /**
@@ -275,7 +225,7 @@ class BillHelper {
      */
     private function generateBillRef(): string {
         $ref = 'F';
-        $ref .= $milliseconds = round(microtime(true) * 1000);
+        $ref .= round(microtime(true) * 1000);
         $this->bill_ref = $ref;
         return $this->bill_ref;
     }

@@ -111,6 +111,16 @@
                                     </form>
                                 </li>
                                 <li>
+                                    <span class="var-indicator">$_POST['user_id'], $_POST['book_id']</span> - pour savoir si un livre est commandé par un client.
+                                    <form method="post" action="./get/commend.php">
+                                        <label for="user_id">user_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id">
+                                        <label for="book_id_get">book_id: </label>
+                                        <input required placeholder="ex: 1" title = "ex: 1" type="number" name="book_id" id="book_id_get">
+                                        <input type="submit" value="OK">
+                                    </form>
+                                </li>
+                                <li>
                                     <span class="var-indicator">$_POST['bill_ref']:(ref facture)</span> - pour récuperer tous les commandes d'une facture avec la réference (bill_ref).
                                     <form method="post" action="./get/commend.php">
                                         <label for="bill_ref">bill_ref: </label>
@@ -157,7 +167,7 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <span class="var-indicator">$_POST['user_id']</span> - Pour récuperer l'adresses de livraison d'un client.
+                                    <span class="var-indicator">$_POST['user_id']</span> - Pour récuperer l'adresse de livraison d'un client.
                                     <form method="post" action="./get/shippingAddress.php">
                                         <label for="user_id_ship">user_id: </label>
                                         <input required placeholder="ex: 1" title = "ex: 1" type="number" name="user_id" id="user_id_ship">
@@ -165,10 +175,10 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <span class="var-indicator">$_POST['bill_ref']:(ref facture)</span> - Pour récuperer l'adresses de livraison d'une facture.
+                                    <span class="var-indicator">$_POST['ship_ref']:(ref commande)</span> - Pour récuperer une adresse de livraison en fonction de sa reference.
                                     <form method="post" action="./get/shippingAddress.php">
-                                        <label for="bill_ref_ship">bill_ref: </label>
-                                        <input required placeholder="ex: F4564865654" title = "ex: F4564865654" type="text" name="bill_ref" id="bill_ref_ship">
+                                        <label for="ship_ref_ship">ship_ref: </label>
+                                        <input required placeholder="ex: S4564865654" title = "ex: S4564865654" type="text" name="ship_ref" id="ship_ref_ship">
                                         <input type="submit" value="OK">
                                     </form>
                                 </li>
@@ -554,7 +564,7 @@
                                 <span class="var-indicator">$_POST['ship_add_ref']:(ref adresse livraison)</span> - pour supprimer une adresse de livraison.
                                 <form method="post" action="./delete/shippingAddress.php">
                                     <div class="d-inline-block"><label for="ship_add_ref">ship_add_ref: </label>
-                                        <input required placeholder="ex: S4561415765" title = "ex: S4561415765" type="number" name="ship_add_ref" id="ship_add_ref"></div>
+                                        <input required placeholder="ex: S4561415765" title = "ex: S4561415765" type="text" name="ship_add_ref" id="ship_add_ref"></div>
                                     <input type="submit" value="OK">
                                 </form>
                             </li>

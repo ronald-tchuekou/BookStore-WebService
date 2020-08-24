@@ -20,17 +20,9 @@ class ShippingAddressHelper
                           FROM adresses_livraisons ship";
 
     /**
-     * @var ShippingAddress
-     */
-    private $shippingAddress;
-    /**
-     * @var string
-     */
-    private $shipping_add_ref;
-    /**
      * ShippingAddressHelper constructor.
      */
-    public function __construct(){ }
+    public function __construct(){ $this->shippingAddress = new ShippingAddress(); }
 
     /**
      * @return ShippingAddress
@@ -63,7 +55,7 @@ class ShippingAddressHelper
 
             $sad = $query->fetchAll();
             foreach ($sad as $result):
-                $this->shippingAddress = new ShippingAddress($result->ship_ref, $result->ship_username,
+                $this->shippingAddress->setData($result->ship_ref, $result->ship_username,
                     $result->ship_phone, $result->ship_district, $result->ship_street, $result->ship_desc_add, $result->ship_is_default);
             endforeach;
         } catch (PDOException $e) {
@@ -89,7 +81,7 @@ class ShippingAddressHelper
 
             $sad = $query->fetchAll();
             foreach ($sad as $result):
-                $this->shippingAddress = new ShippingAddress($result->ship_ref, $result->ship_username,
+                $this->shippingAddress->setData($result->ship_ref, $result->ship_username,
                     $result->ship_phone, $result->ship_district, $result->ship_street, $result->ship_desc_add, $result->ship_is_default);
             endforeach;
         } catch (PDOException $e) {
@@ -127,30 +119,21 @@ class ShippingAddressHelper
             die(json_encode($response));
         }
     }
+    
     /**
-     * Fonction qui permet de convertir un ShippingAddress en string.
+     * Fonction qui permet de convertir un ShippingAddress en json.
      * @return string
      */
-    public function getStringObject() {
-        if ($this->shippingAddress === null)
-            return '{}';
-        return '{
-          "ref": "'. $this->shippingAddress->getRefAdl() .'",
-          "receiver_name": "'. $this->shippingAddress->getReceiverName() .'",
-          "phone_number": "'. $this->shippingAddress->getPhoneNumber() .'",
-          "district": "'. $this->shippingAddress->getDistrict() .'",
-          "street": "'. $this->shippingAddress->getStreet() .'",
-          "more_desc": "'. $this->shippingAddress->getMoreDescription() .'",
-          "is_default": "'. $this->shippingAddress->isIsDefault() .'"
-        }';
+    public function getJsonForm() {
+        return json_encode($this->shippingAddress, JSON_THROW_ON_ERROR);
     }
 
     /**
      * @param ShippingAddress $shippingAddress
      * @param $user_id
-     * @return bool
+     * @return string id of the last insertion.
      */
-    public function addShippingAddress(ShippingAddress $shippingAddress, $user_id): bool
+    public function addShippingAddress(ShippingAddress $shippingAddress, $user_id): string
     {
         try{
             $sql = "INSERT INTO adresses_livraisons (ref_adresse_livraison, id_client, nom_complet, telephone, ville, 
@@ -159,10 +142,11 @@ class ShippingAddressHelper
             $con = new Connexion;
             $db = $con->adminConnexion();
             $query = $db->prepare($sql);
-            return $query->execute([':ship_ref' => $this->generateShippingAddRef(), ':user_id' => $user_id,
+            $query->execute([':ship_ref' => $this->generateShippingAddRef(), ':user_id' => $user_id,
                 ':username' =>$shippingAddress->getReceiverName(), ':phone' =>$shippingAddress->getPhoneNumber(),
                 ':district' => $shippingAddress->getDistrict(), ':street' =>$shippingAddress->getStreet(),
                 ':add_desc' => $shippingAddress->getMoreDescription(), ':is_default' =>$shippingAddress->isIsDefault()]);
+            return $this->shipping_add_ref;
         }catch (PDOException $e) {
             $response = array (
                 'error' => true,
@@ -178,7 +162,7 @@ class ShippingAddressHelper
      */
     private function generateShippingAddRef(): string {
         $ref = 'S';
-        $ref .= $milliseconds = round(microtime(true) * 1000);
+        $ref .= round(microtime(true) * 1000);
         $this->shipping_add_ref = $ref;
         return $this->shipping_add_ref;
     }

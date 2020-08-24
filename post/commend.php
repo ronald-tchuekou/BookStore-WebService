@@ -22,12 +22,12 @@ if (isset($_POST) && !empty($_POST)){
         $date = new DateTime('now', new DateTimeZone('Africa/Douala'));
         $quantity = $_POST['quantity'];
 
-        $added = $commendHelper->addCommend(new Commend(0, $book, $quantity,$quantity * $book->getUnitPrise(),
+        $cmd_id = $commendHelper->addCommend(new Commend(0, $book, $quantity,$quantity * $book->getUnitPrise(),
             $date->format('Y-m-d H:i:s'),0,0), $_POST['user_id']);
 
         die(json_encode(array(
-            'success' => $added,
-            'value' => 'Commend creation'
+            'success' => true,
+            'value' => $cmd_id
         )));
     } catch (Exception $e) {
         die(json_encode(array (

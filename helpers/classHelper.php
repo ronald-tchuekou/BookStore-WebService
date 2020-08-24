@@ -20,19 +20,22 @@ use models\Classe, PDOException;
  * @package helpers
  */
 class ClassHelper {
-    /**
-     * @var array
-     */
-    private $classes;
-    /**
-     * @var Classe
-     */
-    private $class;
-    /**
-     * @var string
-     */
+    
     public const QUERY = "SELECT classes.id as class_id, classes.nom as class_name, classes.libelle as class_libel, cycles.nom as cycle 
                     FROM classes INNER JOIN cycles ON classes.id_cycle = cycles.id";
+
+    public function __construct()
+    {
+        $this->class = new Classe();
+    }
+
+    public function getClasses () {
+        return $this->classes;
+    }
+
+    public function getClass () {
+        return $this->class;
+    }
 
     /**
      * Fonction qui permet de récuperer une classe en fonction de son identifiant.
@@ -50,7 +53,7 @@ class ClassHelper {
             $classList = $query->fetchAll();
             if (count($classList) !== 0)
                 foreach ($classList as $item) {
-                    $this->class = new Classe($item->class_id, $item->class_name, $item->class_libel, $item->cycle);
+                    $this->class->setData($item->class_id, $item->class_name, $item->class_libel, $item->cycle);
                 }
         }catch (PDOException $e) {
             $response = array (
@@ -76,7 +79,8 @@ class ClassHelper {
             $classList = $query->fetchAll();
             $classes = [];
             foreach ($classList as $item) {
-                $class = new Classe($item->class_id, $item->class_name, $item->class_libel, $item->cycle);
+                $c = new Classe();
+                $class = $c->setData($item->class_id, $item->class_name, $item->class_libel, $item->cycle);
                 array_push($classes, $class);
             }
             $this->classes = $classes;
@@ -105,7 +109,8 @@ class ClassHelper {
             $classList = $query->fetchAll();
             $classes = [];
             foreach ($classList as $item) {
-                $class = new Classe($item->class_id, $item->class_name, $item->class_libel, $item->cycle);
+                $c = new Classe();
+                $class = $c->setData($item->class_id, $item->class_name, $item->class_libel, $item->cycle);
                 array_push($classes, $class);
             }
             $this->classes = $classes;
@@ -119,38 +124,10 @@ class ClassHelper {
     }
 
     /**
-     * Fonction qui permet de convertir un tableau de classes en string.
+     * Fonction qui permet de convertir la liste de classes en json.
      * @return string
      */
-    public function getStringArray() {
-        if(empty($this->classes))
-            $result = "{}";
-        else{
-            $result = "[";
-            for ($i = 0; $i < count($this->classes); $i ++) {
-                $this->class = $this->classes[$i];
-                $result .= $this->getStringObject();
-                $result .= $i === count($this->classes)-1 ? '' : ',';
-            }
-            $result .= "]";
-        }
-        return $result;
-    }
-
-    /**
-     * Fonction qui permet de récuperer sous forme de string une classe.
-     * @return string
-     */
-    public function getStringObject () : string {
-        if ($this->class === null)
-            return '[]';
-
-        $value = $this->class;
-        return '{
-                  "id": '. $value->getId() .',
-                  "name": "'. $value->getName() .'",
-                  "libelle": "'. $value->getLibelle() .'",
-                  "cycle": "'. $value->getCycle() .'"
-                }';
+    public function getJsonForm () {
+        return json_encode($this->classes);
     }
 }

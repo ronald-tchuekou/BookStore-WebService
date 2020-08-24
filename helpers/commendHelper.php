@@ -23,15 +23,6 @@ use PDOException;
  */
 class CommendHelper {
 
-    /**
-     * @var array
-     */
-    private $commends;
-    /**
-     * @var Commend
-     */
-    private $commend;
-
     public const QUERY = "SELECT id, ref_facture, id_livre, id_client, quantite_commandee, prix_total, date_commande, 
                                     est_facture, est_validee
                                 FROM clients_commandes_livres";
@@ -39,7 +30,7 @@ class CommendHelper {
     /**
      * CommendHelper constructor.
      */
-    public function __construct() { }
+    public function __construct() { $this->commend = new Commend(); }
 
     /**
      * @return array
@@ -94,8 +85,9 @@ class CommendHelper {
                     $bookHelper->getBookById($item->id_livre);
                     $book = $bookHelper->getBook();
 
-                    $this->commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total,
+                    $this->commend->setData($item->id, $book, $item->quantite_commandee, $item->prix_total,
                         $item->date_commande, $item->est_facture, $item->est_validee);
+                    $this->commend->setBill_ref($item->ref_facture);
                 }
         }catch (PDOException $e) {
             $response = array (
@@ -128,8 +120,9 @@ class CommendHelper {
                     $bookHelper->getBookById($item->id_livre);
                     $book = $bookHelper->getBook();
 
-                    $this->commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total,
+                    $this->commend->setData($item->id, $book, $item->quantite_commandee, $item->prix_total,
                         $item->date_commande, $item->est_facture, $item->est_validee);
+                    $this->commend->setBill_ref($item->ref_facture);
 
                     array_push($commends, $this->commend);
                 }
@@ -161,11 +154,14 @@ class CommendHelper {
             foreach ($commendList as $item) {
                 // get the commend book.
                 $bookHelper = new BookHelper();
-                $bookHelper->getBookById($item->id_livre);
-                $book = $bookHelper->getBook();
-                $commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total, $item->date_commande,
-                    $item->est_facture, $item->est_validee);
-                array_push($commends, $commend);
+                    $bookHelper->getBookById($item->id_livre);
+                    $book = $bookHelper->getBook();
+
+                    $this->commend->setData($item->id, $book, $item->quantite_commandee, $item->prix_total,
+                        $item->date_commande, $item->est_facture, $item->est_validee);
+                    $this->commend->setBill_ref($item->ref_facture);
+
+                array_push($commends, $this->commend);
             }
             $this->commends = $commends;
         }catch (PDOException $e) {
@@ -198,9 +194,11 @@ class CommendHelper {
                 $bookHelper = new BookHelper();
                 $bookHelper->getBookById($item->id_livre);
                 $book = $bookHelper->getBook();
-                $commend = new Commend($item->id, $book, $item->quantite_commandee, $item->prix_total, $item->date_commande,
-                    $item->est_facture, $item->est_validee);
-                array_push($commends, $commend);
+
+                $this->commend->setData($item->id, $book, $item->quantite_commandee, $item->prix_total,
+                        $item->date_commande, $item->est_facture, $item->est_validee);
+                $this->commend->setBill_ref($item->ref_facture === null ? "" : $item->ref_facture);
+                array_push($commends, $this->commend);
             }
             $this->commends = $commends;
         }catch (PDOException $e) {
@@ -216,9 +214,9 @@ class CommendHelper {
      * Fonction qui permet d'ajouter une commande dans la base de données.
      * @param Commend $commend
      * @param int $user_id
-     * @return bool
+     * @return string id of the last insertion.
      */
-    public function addCommend (Commend  $commend, $user_id) : bool{
+    public function addCommend (Commend  $commend, $user_id) : string{
         try {
             $sql = "INSERT INTO clients_commandes_livres (id, id_livre, id_client, quantite_commandee, prix_total, 
                         date_commande, est_facture)
@@ -227,9 +225,11 @@ class CommendHelper {
             $con = new Connexion;
             $db = $con->adminConnexion();
             $query = $db->prepare($sql);
-            return $query->execute([":book_id" => $commend->getBook()->getId(), ":user_id" => $user_id,
+            $query->execute([":book_id" => $commend->getBook()->getId(), ":user_id" => $user_id,
                 ":quantity" => $commend->getQuantity(), ":total_prise" => $commend->getTotalPrise(),
                 ":cmd_date" => $commend->getDateCmd(), ":is_bill" => $commend->isIsBilled()]);
+            
+            return $db->lastInsertId();
         }catch (PDOException $e) {
             $response = array (
                 'error' => true,
@@ -281,46 +281,34 @@ class CommendHelper {
             die(json_encode($response));
         }
     }
-
     /**
-     * Fonction qui permet de convertire un objet Commend en string.
-     * @return string
+     * Fonction qui permet de connaitre si un livre a été commandé par un client.
+     * @param int $user_id
+     * @param int $book_id
+     * @return bool
      */
-    public function getStringObject () : string {
-        if ($this->commend === null)
-            return '{}';
-
-        $bookHelper = new BookHelper();
-        $bookHelper->setBook($this->commend->getBook());
-
-        return '{
-                  "id": "' . $this->commend->getId() . '",
-                  "book": ' . $bookHelper->getStringObject() . ',
-                  "quantity": ' . $this->commend->getQuantity() . ',
-                  "total_prise": ' . $this->commend->getTotalPrise() . ',
-                  "date_cmd": "' . $this->commend->getDateCmd() . '",
-                  "is_billed": ' . $this->commend->isIsBilled() . ',
-                  "is_validate": ' . $this->commend->isIsValidate() . '
-                }';
-    }
-
-    /**
-     * Fonction qui permet de convertir un tableau de commandes en string.
-     * @return string
-     */
-    public function getStringArray() {
-        if(empty($this->commends))
-            $result = "[]";
-        else{
-            $result = "[";
-            for ($i = 0; $i < count($this->commends); $i ++) {
-                $this->commend = $this->commends[$i];
-                $result .= $this->getStringObject();
-                $result .= $i === count($this->commends)-1 ? '' : ',';
-            }
-            $result .= "]";
+    public function userCommendedBookById (int $user_id, int $book_id): bool {
+        try {
+            $sql = "SELECT id FROM clients_commandes_livres WHERE id_client = :user_id AND id_livre = :book_id;";
+            $con = new Connexion;
+            $db = $con->adminConnexion();
+            $query = $db->prepare($sql);
+            $query->execute([":user_id" => $user_id, ":book_id" => $book_id]);
+            return count($query->fetchAll()) > 0 ;
+        }catch (PDOException $e) {
+            $response = array (
+                'error' => true,
+                'message' => 'Error => ' . __FUNCTION__ . ' : ' . $e->getMessage()
+            );
+            die(json_encode($response));
         }
-        return $result;
+    }
+    /**
+     * Fonction qui permet de convertir la liste de commandes en json.
+     * @return string
+     */
+    public function getJsonForm () {
+        return json_decode($this->commends);
     }
 
     /**
@@ -328,16 +316,17 @@ class CommendHelper {
      * @param int $new_quantity
      * @param int $cmd_id
      * @param $book_prise
-     * @return bool
+     * @return float
      */
-    public function updateQuantity($new_quantity, $cmd_id, $book_prise): bool
+    public function updateQuantity($new_quantity, $cmd_id, $book_prise): float
     {
         try {
             $sql = "UPDATE clients_commandes_livres SET  quantite_commandee = :new_q, prix_total = :new_tp WHERE id = :cmd_id;";
             $con = new Connexion;
             $db = $con->adminConnexion();
             $query = $db->prepare($sql);
-            return $query->execute([':new_q'=> $new_quantity, ":new_tp" => ($book_prise * $new_quantity), ":cmd_id" => $cmd_id]);
+            if ($query->execute([':new_q'=> $new_quantity, ":new_tp" => ($book_prise * $new_quantity), ":cmd_id" => $cmd_id]))
+                return $new_quantity * $book_prise;
         }catch (PDOException $e) {
             $response = array (
                 'error' => true,

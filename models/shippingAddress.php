@@ -8,35 +8,7 @@ namespace models;
  */
 class ShippingAddress
 {
-    /**
-     * @var string
-     */
-    private $ref_adl;
-    /**
-     * @var string
-     */
-    private $receiver_name;
-    /**
-     * @var string
-     */
-    private $phone_number;
-    /**
-     * @var string
-     */
-    private $district;
-    /**
-     * @var string
-     */
-    private $street;
-    /**
-     * @var string
-     */
-    private $more_description;
-    /**
-     * @var int
-     */
-    private $is_default;
-
+  
     /**
      * shippingAddress constructor.
      * @param string $ref_adl
@@ -47,7 +19,7 @@ class ShippingAddress
      * @param string $more_description
      * @param int $is_default
      */
-    public function __construct($ref_adl, $receiver_name, $phone_number, $district, $street, $more_description, $is_default)
+    public function setData(string $ref_adl, string $receiver_name, string $phone_number, string $district, string $street, string $more_description, int $is_default)
     {
         $this->ref_adl = $ref_adl;
         $this->receiver_name = $receiver_name;

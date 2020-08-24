@@ -7,6 +7,7 @@
 require_once '../vendor/autoload.php';
 
 use helpers\BillHelper;
+use utils\AppConst;
 
 $billHelper = new BillHelper();
 
@@ -18,6 +19,13 @@ if (isset($_POST) && !empty($_POST)):
         $billHelper->getAllBillByState($_POST['shipping_state']);
     endif;
 
-    die('{"success":true, "value":'. $billHelper->getStringArray() .'}');
+    $response = array (
+        "success" => true,
+        "value" => $billHelper->getBills()
+    );
+
+    AppConst::convert_from_latin1_to_utf8_recursively($response);
+    die(json_encode($response, JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE));
+
 
 endif;

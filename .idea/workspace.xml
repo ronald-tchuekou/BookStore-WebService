@@ -1,45 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="037be082-be63-46ac-8109-5f11c5dd498a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/bookstore_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons8_school_2.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/delete/bill.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/delete/commend.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/delete/shippingAddress.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/get/bill.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/get/book.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/get/classe.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/get/commend.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/get/shippingAddress.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/get/user.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/index.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/post/bill.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/post/commend.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/post/shippingAddress.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/post/user.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/update/bill.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/update/commend.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/update/shippingAddress.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/update/user.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/appConfig.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/BookStore.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bookstore.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/dbf11d1c-3409-4801-a098-e4024fcd4866.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/dbf11d1c-3409-4801-a098-e4024fcd4866.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backlog.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/billHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/billHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/bookHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/bookHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/classHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/classHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/commendHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/commendHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/connexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/connexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/shippingAddressHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/shippingAddressHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/userHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/userHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/appConst.php" beforeDir="false" afterPath="$PROJECT_DIR$/utils/appConst.php" afterDir="false" />
-    </list>
+    <list default="true" id="037be082-be63-46ac-8109-5f11c5dd498a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,51 +51,7 @@
     </checked>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="584" column="49" selection-start-line="584" selection-start-column="43" selection-end-line="584" selection-end-column="49" />
-              <folding>
-                <element signature="n#section#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#section#1;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#section#2;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="e#43805#43811#1" expanded="true" />
-                <element signature="e#43811#43817#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="15" selection-start-line="10" selection-start-column="15" selection-end-line="10" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="110" column="8" lean-forward="true" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -261,27 +179,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="BookStore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BookStore" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BookStore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BookStore" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BookStore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BookStore" type="462c0819:PsiDirectoryNode" />
-              <item name="index.scss" type="620a8d5e:NestingTreeNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -292,7 +190,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="database.data.extractors.current.id" value="SQL Inserts" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -362,12 +260,12 @@
       <workItem from="1597673258599" duration="17194000" />
       <workItem from="1597691090439" duration="5808000" />
       <workItem from="1597735200938" duration="109159000" />
-      <workItem from="1597923457150" duration="7873000" />
+      <workItem from="1597923457150" duration="8599000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210194000" />
+    <option name="totallyTimeSpent" value="210920000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -380,9 +278,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18683812" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18683812" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -738,7 +635,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
+        <state relative-caret-position="264">
           <caret line="110" column="8" lean-forward="true" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
         </state>
       </provider>
@@ -760,6 +657,7 @@
             <element signature="n#section#2;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="e#43805#43811#1" expanded="true" />
             <element signature="e#43811#43817#0" expanded="true" />
+            <element signature="e#43817#43823#0" expanded="true" />
           </folding>
         </state>
       </provider>
