@@ -10,10 +10,7 @@
  * @author Ronald Tchuekou.
  */
 
-namespace helpers;
-
-use PDO, PDOException;
-use utils\AppConfig;
+require_once '../utils/appConfig.php';
 
 /**
  * Class qui permet de gérer la connexion à la base de données.

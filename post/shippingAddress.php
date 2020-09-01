@@ -7,10 +7,8 @@
  * The post information is: receiver_name(string), phone(string), district(string), street(string), more_desc(string),
  * user_id(int)
  */
-require_once '../vendor/autoload.php';
-
-use helpers\ShippingAddressHelper;
-use models\ShippingAddress;
+require_once '../helpers/shippingAddressHelper.php';
+require_once '../models/shippingAddress.php';
 
 if (isset($_POST) && !empty($_POST)){
     $shippingAddressHelper = new ShippingAddressHelper();

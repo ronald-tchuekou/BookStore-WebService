@@ -4,10 +4,8 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\CommendHelper;
-use utils\AppConst;
+require_once '../helpers/commendHelper.php';
+require_once '../utils/appConst.php';
 
 $commendHelper = new CommendHelper();
 

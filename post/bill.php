@@ -6,9 +6,7 @@
 /*
  * The post information is: user_id (int), shipping_add_ref(string), shipping_type(string), total_prise(float)
  */
-require_once '../vendor/autoload.php';
-
-use helpers\BillHelper;
+require_once '../helpers/billHelper.php';
 
 if (isset($_POST) && !empty($_POST)) {
     $billHelper = new BillHelper();

@@ -4,10 +4,8 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\ShippingAddressHelper;
-use utils\AppConst;
+require_once '../helpers/shippingAddressHelper.php';
+require_once '../utils/appConst.php';
 
 $shippingAddressHelper = new ShippingAddressHelper();
 

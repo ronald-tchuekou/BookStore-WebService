@@ -4,9 +4,7 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\CommendHelper;
+require_once '../helpers/commendHelper.php';
 
 $commendHelper = new CommendHelper();
 

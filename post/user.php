@@ -6,15 +6,10 @@
 /*
  * The post information is: name(string), surname(string), phone(string), login(string), pass(string)
  */
-namespace post;
 
-require_once '../vendor/autoload.php';
+require_once '../helpers/userHelper.php';
 
-use Exception;
-use helpers\UserHelper;
-use models\User;
-
-if (isset($_POST) && !empty($_POST)){
+if (isset($_POST) && !empty($_POST)) {
     $userHelper = new UserHelper();
     try {
         $user_id = $userHelper->addUser(new User(

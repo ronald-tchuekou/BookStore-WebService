@@ -6,11 +6,9 @@
 /*
  * The post information is: book_id (int), quantity(int), user_id(int)
  */
-require_once '../vendor/autoload.php';
-
-use helpers\BookHelper;
-use helpers\CommendHelper;
-use models\Commend;
+require_once '../helpers/commendHelper.php';
+require_once '../helpers/bookHelper.php';
+require_once '../models/commend.php';
 
 if (isset($_POST) && !empty($_POST)){
     $commendHelper = new CommendHelper();

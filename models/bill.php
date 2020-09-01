@@ -2,7 +2,9 @@
 /**
  * Copyright (c) - 2020 by RonCoder
  */
-namespace models;
+
+require_once '../models/user.php';
+require_once '../models/shippingAddress.php';
 
 /**
  * Class facture

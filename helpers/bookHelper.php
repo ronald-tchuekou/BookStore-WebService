@@ -11,9 +11,8 @@
  * @author Ronald Tchuekou
  */
 
-namespace helpers;
-
-use models\book, PDOException;
+require_once '../models/book.php';
+require_once 'connexion.php';
 
  class BookHelper {
 

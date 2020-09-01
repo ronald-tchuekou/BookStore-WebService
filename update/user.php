@@ -3,9 +3,7 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\UserHelper;
+require_once '../helpers/userHelper.php';
 
 $userHelper = new UserHelper();
 

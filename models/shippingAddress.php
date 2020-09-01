@@ -2,7 +2,7 @@
 /**
  * Copyright (c) - 2020 by RonCoder
  */
-namespace models;
+
 /**
  * Class shippingAddress
  */

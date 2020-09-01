@@ -4,9 +4,7 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\ShippingAddressHelper;
+require_once '../helpers/shippingAddressHelper.php';
 
 $shippingAddressHelper = new ShippingAddressHelper();
 

@@ -4,10 +4,8 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once  '../vendor/autoload.php';
-
-use helpers\ClassHelper;
-use utils\AppConst;
+require_once  '../helpers/classHelper.php';
+require_once  '../utils/appConst.php';
 
 $classHelper = new ClassHelper();
 $classHelper->getAllClass();

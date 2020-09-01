@@ -10,10 +10,8 @@
  *
  * @author Ronald Tchuekou
  */
-
-namespace helpers;
-
-use models\Classe, PDOException;
+require_once 'connexion.php';
+require_once '../models/classe.php';
 
 /**
  * Class ClassHelper

@@ -4,10 +4,8 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\BookHelper;
-use utils\AppConst;
+require_once '../helpers/bookHelper.php';
+require_once '../utils/appConst.php';
 
 $bookHelper = new BookHelper();
 

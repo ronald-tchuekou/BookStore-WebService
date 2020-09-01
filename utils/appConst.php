@@ -3,8 +3,6 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-namespace utils;
-
 /**
  * Class AppConst
  * @package helpers

@@ -4,10 +4,8 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\BillHelper;
-use helpers\CommendHelper;
+require_once '../helpers/billHelper.php';
+require_once '../helpers/commendHelper.php';
 
 $billHelper = new BillHelper();
 $commendHelper = new CommendHelper();

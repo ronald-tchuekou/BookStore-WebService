@@ -3,13 +3,8 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-namespace helpers;
-
-use DateTime;
-use DateTimeZone;
-use Exception;
-use models\User;
-use PDOException;
+require_once '../models/user.php';
+require_once 'connexion.php';
 
 /**
  * Class UserHelper

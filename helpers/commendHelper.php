@@ -11,11 +11,8 @@
  * @author Ronald Tchuekou
  */
 
-namespace helpers;
-
-
-use models\Commend;
-use PDOException;
+require_once '../models/commend.php';
+require_once 'connexion.php';
 
 /**
  * Class CommendHelper

@@ -3,15 +3,9 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-namespace helpers;
-
-use DateInterval;
-use DateTime;
-use DateTimeZone;
-use Exception;
-use models\Bill;
-use PDOException;
-use utils\AppConst;
+require_once '../utils/appConst.php';
+require_once '../models/bill.php';
+require_once 'connexion.php';
 
 /**
  * Class BillHelper

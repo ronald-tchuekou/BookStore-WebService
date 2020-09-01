@@ -4,10 +4,7 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-require_once '../vendor/autoload.php';
-
-use helpers\BillHelper;
-use utils\AppConst;
+require_once '../helpers/billHelper.php';
 
 $billHelper = new BillHelper();
 

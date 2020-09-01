@@ -2,7 +2,8 @@
 /**
  * Copyright (c) - 2020 by RonCoder
  */
-namespace models;
+require_once '../models/book.php';
+
 /**
  * Class commend
  */

@@ -3,10 +3,8 @@
  * Copyright (c) - 2020 by RonCoder
  */
 
-namespace helpers;
-
-use models\ShippingAddress;
-use PDOException;
+require_once '../models/shippingAddress.php';
+require_once 'connexion.php';
 
 /**
  * Class ShippingAddressHelper

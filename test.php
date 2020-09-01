@@ -2,12 +2,10 @@
 /**
  * Copyright (c) - 2020 by RonCoder
  */
-require_once 'vendor/autoload.php';
-
-use helpers\CommendHelper;
-use helpers\BookHelper;
-use helpers\UserHelper;
-use utils\AppConst;
+require_once 'helpers/commendHelper.php';
+require_once 'helpers/bookHelper.php';
+require_once 'helpers/userHelper.php';
+require_once 'utils/appConst.php';
 
 $ref = 'F';
 $ref .= $milliseconds = round(microtime(true) * 1000);
